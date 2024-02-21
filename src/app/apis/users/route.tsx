@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import dbConnection from './../../db/connection';
+import User from './../../model/model';
 
 export const url = 'https://reqres.in/api/users'
 export async function GET() {
@@ -21,9 +23,14 @@ export async function POST(request: Request) {
     })
 
 
+
+
+
     const jsonRes = await response.json();
 
+    await dbConnection();
 
+    const data = await User.create(reqBody)
 
-    return NextResponse.json(jsonRes, { status: 201 });
+    return NextResponse.json(data, { status: 201 });
 }
